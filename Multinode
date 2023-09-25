@@ -1,0 +1,40 @@
+pipeline {
+    agent none
+    stages {
+        stage('Back-end') {
+            agent {
+                docker { image 'maven:3.9.1-adoptopenjdk-11' }
+            }
+            steps {
+                sh 'mvn --version'
+            }
+        }
+        stage('Front-end') {
+            agent {
+                docker { image 'node:16-alpine' }
+            }
+            steps {
+                sh 'node --version'
+            }
+        }
+        stage('JClass') {
+            agent any
+            steps {
+                script {
+                    // Create a Hello.java file with a Hello, World! Java class
+                    writeFile file: 'Hello.java', text: '''
+                        public class Hello {
+                            public static void main(String[] args) {
+                                System.out.println("Hello, World!");
+                            }
+                        }
+                    '''
+                    
+                    // Compile and run the Java class
+                    sh 'javac Hello.java'
+                    sh 'java Hello'
+                }
+            }
+        }
+    }
+}
