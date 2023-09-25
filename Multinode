@@ -21,18 +21,18 @@ pipeline {
             agent any
             steps {
                 script {
-                    // Create a Hello.java file with a Hello, World! Java class
-                    writeFile file: 'Hello.java', text: '''
+                sh '''// Create a Hello.java file with a Hello, World! Java class
+                    writeFile file: \'Hello.java\', text: \'\'\'
                         public class Hello {
                             public static void main(String[] args) {
                                 System.out.println("Hello, World!");
                             }
                         }
-                    '''
+                    \'\'\'
                     
                     // Compile and run the Java class
-                    sh 'javac Hello.java'
-                    sh 'java Hello'
+                    sh \'javac Hello.java\'
+                    sh \'java Hello\''''
                 }
             }
         }
